@@ -1,0 +1,41 @@
+1) System requirements
+# Operating system
+MacOS Mojave (10.14.6)
+
+# Programming language
+python (3.6.7)
+
+# Required python libraries:
+numpy-1.19.5
+pandas-1.1.5
+rdkit-2020.09.1.0
+joblib-1.0.1
+tqdm-4.61.0
+scikit-learn-0.24.2
+matplotlib-3.3.4
+
+
+2) Installation guide
+Install python and the above mentioned python libraries using pip or conda. No other specific installation is required. Typical install time for the above python dependencies is around 5 minutes.
+
+3) Demo
+Several python scripts and necessary data files have been included. The most crucial file to run is the "RunPeptideOpt.py", which executes the MCTS search for top scoring tripeptide. The other relevant class and function definition files are included in the other *.py files.
+
+The "data" folder contains "peptide_scores.csv" file which is the pre-evaluated output of MD runs for all 8000 possible tripeptides. This file is accessed by the MCTS search during the run as a proxy to running actual MD simulations (which would need access to supercomputer). Also, during the MCTS run a file named "current_peptide_scores.csv" is generated, which stores information about the peptides that have been evaluated during a MCTS run.
+
+The folder "ml_model" contains the file "fp_data.csv" which is the pre-computed fingerprint value of all 8000 possible tripeptides. Also, during the MCTS run an machine learning model file named "rf_AP_3mer.ml" is generated, which stores information about the random forest model and its parameters.
+
+
+
+To start the run, execute the following command from terminal 
+
+# Delete the "ml_model/rf_AP_3mer.ml" and "data/current_peptide_scores.csv" files, if they exist from previous runs
+rm ml_model/rf_AP_3mer.ml data/current_peptide_scores.csv
+
+# Start MCTS run
+python RunPeptideOpt.py
+
+
+Expected run time is less than 30 mins. The search will stop when any of the top 3 scoring tripeptide from 8000 possible candidates is found. The identified peptide, its score and the number of evaluations needed to find it are output towards the end. The file "data/current_peptide_scores.csv" contains information of all peptides that were searched using MCTS in the sequence of their search.
+
+In case of re-running the code, please remember to delete the files "ml_model/rf_AP_3mer.ml" and "data/current_peptide_scores.csv" from previous runs.
